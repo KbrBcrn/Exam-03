@@ -10,24 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MICRO_PAINT_H
-#define MICRO_PAINT_H
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <math.h>
+typedef struct	s_zone
+{
+	int		width;
+	int		height;
+	char	background;
+} 				t_zone;
 
-typedef struct t_tab {
-	int		size_x;
-	int		size_y;
+typedef struct	s_shape
+{
+	char	type;
 	float	x;
 	float	y;
-	char	type;
-	char	content;
 	float	width;
 	float	height;
-	char	*tab;
-}	t_tab;
+	char	color;
+}				t_shape;
 
 #endif
