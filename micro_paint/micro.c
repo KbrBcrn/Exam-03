@@ -1,24 +1,3 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-
-typedef struct	s_zone
-{
-	int		width;
-	int		height;
-	char	background;
-} 				t_zone;
-
-typedef struct	s_shape
-{
-	char	type;
-	float	x;
-	float	y;
-	float	width;
-	float	height;
-	char	color;
-}				t_shape;
 
 int
 	ft_strlen(char const *str)
