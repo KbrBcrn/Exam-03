@@ -130,9 +130,8 @@ int
 	char	*drawing;
 	FILE	*file;
 
-	zone.width = 0;
-	zone.height = 0;
-	zone.background = 0;
+	memset(&zone, 0, sizeof(t_zone));
+	drawing = NULL;
 	if (argc != 2)
 		return (str_error("Error: argument\n", 1));
 	if (!(file = fopen(argv[1], "r")))
