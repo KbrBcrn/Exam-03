@@ -1,3 +1,4 @@
+#include "micro.h"
 
 int
 	ft_strlen(char const *str)

@@ -6,13 +6,17 @@
 /*   By: kbeceren <kbeceren@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 14:35:08 by kbeceren          #+#    #+#             */
-/*   Updated: 2023/03/05 14:35:11 by kbeceren         ###   ########.fr       */
+/*   Updated: 2023/03/23 07:08:25 by kbeceren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+#ifndef MICRO_H
+# define MICRO_H
+
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
 
 typedef struct	s_zone
 {
