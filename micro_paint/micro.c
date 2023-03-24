@@ -1,7 +1,6 @@
 #include "micro.h"
 
-int
-	ft_strlen(char const *str)
+int ft_strlen(char const *str)
 {
 	int	i;
 
@@ -11,34 +10,18 @@ int
 	return (i);
 }
 
-int
-	str_error(char const *str, int ret)
+int str_error(char const *str, int ret)
 {
 	write(1, str, ft_strlen(str));
 	return (ret);
 }
 
-int
-	clear_all(FILE *file, char *drawing)
+int clear_all(FILE *file, char *drawing)
 {
 	fclose(file);
 	if (drawing)
 		free(drawing);
 	return (1);
-}
-
-int
-	check_zone(t_zone *zone)
-{
-	return (zone->width > 0 && zone->width <= 300
-			&& zone->height > 0 && zone->height <= 300);
-}
-
-int
-	check_shape(t_shape *shape)
-{
-	return (shape->width > 0.00000000 && shape->height > 0.00000000
-			&& (shape->type == 'r' || shape->type == 'R'));
 }
 
 char *get_zone(FILE *file, t_zone *zone)
@@ -48,7 +31,8 @@ char *get_zone(FILE *file, t_zone *zone)
 
 	if ((fscanf(file, "%d %d %c\n", &zone->width, &zone->height, &zone->background)) != 3)
 		return (0);
-	if (!check_zone(zone))
+	if (zone->width <= 0 || zone->width > 300
+			|| zone->height <= 0 || zone->height > 300)
 		return (0);
 	if (!(tmp = (char*)malloc(sizeof(*tmp) * (zone->width * zone->height))))
 		return (NULL);
@@ -58,9 +42,7 @@ char *get_zone(FILE *file, t_zone *zone)
 	return (tmp);
 }
 
-
-int
-	in_rectangle(float x, float y, t_shape *shape)
+int in_rectangle(float x, float y, t_shape *shape)
 {
 	if (((x < shape->x || (shape->x + shape->width < x))
 		|| (y < shape->y)) || (shape->y + shape->height < y))
@@ -71,8 +53,7 @@ int
 	return (1);
 }
 
-void
-	draw_shape(char **drawing, t_shape *shape, t_zone *zone)
+void draw_shape(char *drawing, t_shape *shape, t_zone *zone)
 {
 	int	i;
 	int	j;
@@ -87,22 +68,22 @@ void
 			ret = in_rectangle(j, i, shape);
 			if ((shape->type == 'r' && ret == 2)
 				|| (shape->type == 'R' && ret))
-				(*drawing)[(i * zone->width) + j] = shape->color;
+				drawing[(i * zone->width) + j] = shape->color;
 			j++;
 		}
 		i++;
 	}
 }
 
-int
-	draw_shapes(FILE *file, char **drawing, t_zone *zone)
+int draw_shapes(FILE *file, char *drawing, t_zone *zone)
 {
 	t_shape	tmp;
 	int		ret;
 
 	while ((ret = fscanf(file, "%c %f %f %f %f %c\n", &tmp.type, &tmp.x, &tmp.y, &tmp.width, &tmp.height, &tmp.color)) == 6)
 	{
-		if (!check_shape(&tmp))
+		if (tmp.width <= 0.00000000 || tmp.height <= 0.00000000
+			|| (tmp.type != 'r' && tmp.type != 'R'))
 			return (0);
 		draw_shape(drawing, &tmp, zone);
 	}
@@ -111,8 +92,7 @@ int
 	return (1);
 }
 
-void
-	draw_drawing(char *drawing, t_zone *zone)
+void draw_drawing(char *drawing, t_zone *zone)
 {
 	int	i;
 
@@ -125,8 +105,7 @@ void
 	}
 }
 
-int
-	main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	t_zone	zone;
 	char	*drawing;
@@ -140,7 +119,7 @@ int
 		return (str_error("Error: Operation file corrupted\n", 1));
 	if (!(drawing = get_zone(file, &zone)))
 		return (clear_all(file, NULL) && str_error("Error: Operation file corrupted\n", 1));
-	if (!draw_shapes(file, &drawing, &zone))
+	if (!draw_shapes(file, drawing, &zone))
 		return (clear_all(file, drawing) && str_error("Error: Operation file corrupted\n", 1));
 	draw_drawing(drawing, &zone);
 	clear_all(file, drawing);
