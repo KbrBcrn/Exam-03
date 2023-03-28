@@ -83,7 +83,7 @@ void	draw_shape(t_zone *zone, char *drawing, t_shape *shape)
 		j = 0;
 		while (j < zone->width)
 		{
-			ret = in_circle((float)i, (float)j, shape);
+			ret = in_circle((float)j, (float)i, shape);
 			if ((shape->type == 'c' && ret == 2)
 				|| (shape->type == 'C' && ret))
 				drawing[(i * zone->width) + j] = shape->color;
